@@ -3,7 +3,9 @@ const userRouter = express.Router()
 const user = require('../Models/usermodel')
 const {body} = require('express-validator')
 const registerUser = require('../services/user.service')
-
+userRouter.get('/register',(req,res)=>{
+    res.send("Hey")
+})
 
 userRouter.post('/register',[
     body('fullname.firstname').isLength({min:3}).withMessage('Firstname must be 3 characters long'),
