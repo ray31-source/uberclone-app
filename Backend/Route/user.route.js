@@ -1,0 +1,17 @@
+const express = require('express')
+const userRouter = express.Router()
+const user = require('../Models/usermodel')
+const {body} = require('express-validator')
+const registerUser = require('../services/user.service')
+
+
+userRouter.post('/register',[
+    body('fullname.firstname').isLength({min:3}).withMessage('Firstname must be 3 characters long'),
+    body('email').isEmail().withMessage('Email must be valid'),
+    body('password').isLength({min:6}).withMessage('Password must be 6 characters long')
+],
+registerUser
+
+)
+
+module.exports = userRouter;
