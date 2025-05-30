@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
 
 })
 UserSchema.methods.generateAuthtoken = function () {
-    const token = jwt.sign({id: this._id}, JWT_SECRET , {
+    const token = jwt.sign({_id: this._id}, JWT_SECRET , {
         expiresIn : '1h'
     })
     return token;
@@ -50,8 +50,8 @@ UserSchema.statics.comparePassword = async function (password , hashedPassword){
  return await bcrypt.compare(password , hashedPassword);
 }
 
-const user = mongoose.model('User' , UserSchema) 
+const User = mongoose.model('User' , UserSchema) 
 
 
 
-module.exports = user;
+module.exports = User;

@@ -1,30 +1,36 @@
-const {validationResult} = require('express-validator')
-const user = require('../Models/usermodel')
+
+const User = require('../Models/usermodel')
 const userRouter = require('../Route/user.route')
 
-async function registerUser(req,res){
-const errors = validationResult(req)
+async function registerUser (req,res){
 
-if(!errors.isEmpty()){
-    return res.status(401).json({errors : errors.array()})
-}
+    const {fullname , password , email } = req.body
+   
+    if(!fullname || !fullname.firstname || !password || !email){
+        throw new Error(" All fields are required");
+        
+    }
+
 else{
-    const newUser = new user({
-       fullname:
-       { firstname:req.body.fullname.firstname,
-        lastname:req.body.fullname.lastname
-       },
-        email:req.body.email,
-        password:req.body.password
+    const {firstname , lastname} = fullname
+    console.log("Hey service is creating it")
+    try{
+    const newUser = new User({
+       fullname:{
+        firstname , 
+        lastname
+       }
+       ,
+        email,
+        password
     })
     newUser.password =  await newUser.hashPassword()
     await newUser.save()
-    .then(()=>{
+  
         res.status(200).json({message:"Succesfully Saved"})
-    })
-    .catch((err)=>{
-res.status(400).json({message:err})
-    })
+}catch(err) {
+res.status(400).json({message :err })
+    }
 }
 }
 module.exports = registerUser;

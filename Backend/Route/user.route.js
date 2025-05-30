@@ -1,10 +1,11 @@
 const express = require('express')
 const userRouter = express.Router()
-const user = require('../Models/usermodel')
+const User = require('../Models/usermodel')
 const {body} = require('express-validator')
 const registerUser = require('../services/user.service')
+const userController = require('../Controllers/user.controller')
 userRouter.get('/register',(req,res)=>{
-    res.send("Hey")
+    res.send("Hey Hello")
 })
 
 userRouter.post('/register',[
@@ -12,6 +13,7 @@ userRouter.post('/register',[
     body('email').isEmail().withMessage('Email must be valid'),
     body('password').isLength({min:6}).withMessage('Password must be 6 characters long')
 ],
+userController,
 registerUser
 
 )
